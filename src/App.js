@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   handleAddListItem (data) {
-    console.log (data)
+    //console.log (data)
     let list = this.state.list
     list.push(data)
     this.updateList(list)
@@ -53,6 +53,10 @@ class App extends Component {
     else {
       list = JSON.parse(list)
     }
+    list = list.map (item => {
+      item.date = new Date(item.date)
+      return item
+    })
     this.setState({list})
   }
 
@@ -84,6 +88,21 @@ class App extends Component {
           <h2><span>Tasks Done</span></h2>
           <TodoList list={this.state.list}
                     filter={item => item.done}
+                    onUpdate={this.handleUpdateListItem}
+                    onRemove={this.handleRemoveListItem}
+          />
+        </div>
+        <div className="app-section">
+          <h2><span>Tasks de 2017</span></h2>
+          <TodoList list={this.state.list}
+                    filter={item => item.date.getFullYear() === 2017}
+                    onUpdate={this.handleUpdateListItem}
+                    onRemove={this.handleRemoveListItem}
+          />
+        </div>
+        <div className="app-section">
+          <h2><span>Todas as Tasks</span></h2>
+          <TodoList list={this.state.list}
                     onUpdate={this.handleUpdateListItem}
                     onRemove={this.handleRemoveListItem}
           />

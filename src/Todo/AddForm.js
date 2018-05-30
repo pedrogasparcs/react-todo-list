@@ -34,9 +34,8 @@ class AddForm extends Component {
     handleSubmit (e) {
         e.preventDefault()
         // validate data and then send
-        let data = this.state.data
+        let data = Object.assign({}, this.state.data)
         data.date = new Date (data.date)
-        !this.props.onSubmit || this.props.onSubmit(data)
         this.setState({
             data: {
                 text: "",
@@ -45,6 +44,7 @@ class AddForm extends Component {
             },
             adding: false
         })
+        !this.props.onSubmit || this.props.onSubmit(data)
     }
 
     handleCancel () {
