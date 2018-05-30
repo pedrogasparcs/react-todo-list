@@ -1,0 +1,11 @@
+.todo-list {
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+}
+
+.todo-list th, .todo-list td {
+    border: 1px solid #aaa;
+    padding: 10px 0;
+}
