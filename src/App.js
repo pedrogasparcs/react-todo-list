@@ -4,6 +4,44 @@ import './css/App.css';
 import TodoList from './Todo/List'
 import TodoAddForm from './Todo/AddForm'
 
+var estado_geral = {
+  nextid_categoria: 2,
+  categorias: [
+    {
+      id: 0,
+      nome: "xpto",
+      cor: "#fff"
+    },
+    {
+      id: 1,
+      nome: "xpti",
+      cor: "#f00"
+    }
+  ],
+  nextid_estado: 2,
+  estados: [
+    {
+      id: 0,
+      designacao: "feito",
+      prepend: "v",
+    },
+    {
+      id: 1,
+      designacao: "urgente",
+      prepend: "!!!",
+    },
+  ],
+  tasks: [
+    {
+      descricao: "comer amendoins",
+      data: "2017/08/03",
+      estado: [0],
+      categorias: [0, 1]
+    }
+  ],
+}
+
+
 class App extends Component {
   constructor (props) {
     super(props)
@@ -19,25 +57,6 @@ class App extends Component {
   componentWillMount () {
     //localStorage.setItem("list", JSON.stringify([]))
     this.getLocalList()
-  }
-
-  handleUpdateListItem (index, data) {
-    let list = this.state.list
-    list[index] = data
-    this.updateList(list)
-  }
-
-  handleRemoveListItem (index) {
-    let list = this.state.list
-    list.splice(index, 1)
-    this.updateList(list)
-  }
-
-  handleAddListItem (data) {
-    //console.log (data)
-    let list = this.state.list
-    list.push(data)
-    this.updateList(list)
   }
 
   updateList (list) {
@@ -68,7 +87,27 @@ class App extends Component {
     }, 1000)
   }
 
+  handleUpdateListItem (index, data) {
+    let list = this.state.list.slice()
+    list[index] = data
+    this.updateList(list)
+  }
+
+  handleRemoveListItem (index) {
+    let list = this.state.list.slice()
+    list.splice(index, 1)
+    this.updateList(list)
+  }
+
+  handleAddListItem (data) {
+    //console.log (data)
+    let list = this.state.list.slice()
+    list.push(data)
+    this.updateList(list)
+  }
+
   render() {
+    console.log("App Render")
     return (
       <div className="app">
         <div className="app-section">
@@ -96,6 +135,14 @@ class App extends Component {
           <h2><span>Tasks de 2017</span></h2>
           <TodoList list={this.state.list}
                     filter={item => item.date.getFullYear() === 2017}
+                    onUpdate={this.handleUpdateListItem}
+                    onRemove={this.handleRemoveListItem}
+          />
+        </div>
+        <div className="app-section">
+          <h2><span>Tasks de 2017 feitas</span></h2>
+          <TodoList list={this.state.list}
+                    filter={item => item.date.getFullYear() === 2017 && item.done}
                     onUpdate={this.handleUpdateListItem}
                     onRemove={this.handleRemoveListItem}
           />

@@ -14,6 +14,10 @@ class Item extends Component {
         this.handleStateChange = this.handleStateChange.bind(this)
     }
 
+    componentWillReceiveProps (newProps) {
+        this.setState({data: newProps.data})
+    }
+
     handleEdit () {
         if(this.props.isEditing) {
             this.handleSubmit ()
@@ -36,7 +40,7 @@ class Item extends Component {
     handleSubmit (e) {
         !e || e.preventDefault ()
         // validate data and then send
-        let data = this.state.data
+        let data = Object.assign({}, this.state.data)
         data.date = new Date (data.date)
         !this.props.onUpdate || this.props.onUpdate(data)
     }

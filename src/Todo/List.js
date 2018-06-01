@@ -30,6 +30,14 @@ class List extends Component {
                />
     }
     render () {
+        console.log (this.props.list.map(
+            (item, index) => !this.props.filter 
+                                ? this.renderItem(item, index) 
+                                : (
+                                    this.props.filter(item) 
+                                    ? this.renderItem(item, index) 
+                                    : null
+                                )))
         return <table className="todo-list">
             <thead>
                 <tr>
